@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hennie skal døpes!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light;
+    --pink:#ff8fb1; --pink-d:#e8558a; --blue:#8fd3ff; --blue-d:#3a9bd9;
+    --yellow:#ffe27a; --mint:#a8f0c6; --ink:#3b2a4a; --paper:#fffaf3;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{
+    font-family:"Baloo 2",system-ui,sans-serif;color:var(--ink);
+    background:
+      radial-gradient(circle at 10% 15%, #ffe0ec 0 120px, transparent 121px),
+      radial-gradient(circle at 92% 30%, #dff3ff 0 160px, transparent 161px),
+      radial-gradient(circle at 20% 85%, #fff4c4 0 140px, transparent 141px),
+      radial-gradient(circle at 85% 90%, #e2fbe9 0 120px, transparent 121px),
+      var(--paper);
+    overflow-x:hidden;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:28px 18px 80px;position:relative;z-index:1}
+  .bubbles span{position:fixed;bottom:-60px;border-radius:50%;opacity:.55;z-index:0;
+    animation:rise linear infinite;pointer-events:none}
+  @keyframes rise{to{transform:translateY(-120vh) translateX(30px)}}
+
+  .kicker{font-family:"Caveat",cursive;font-size:30px;text-align:center;color:var(--pink-d);margin:0;transform:rotate(-2deg)}
+  h1{font-size:clamp(44px,10vw,78px);line-height:.95;text-align:center;margin:6px 0 4px;font-weight:800;letter-spacing:-1px}
+  h1 .h{color:var(--pink-d);display:inline-block;animation:wiggle 2.4s ease-in-out infinite}
+  @keyframes wiggle{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg) scale(1.04)}}
+  .sub{text-align:center;font-size:20px;margin:0 0 26px}
+
+  .photos{display:flex;justify-content:center;align-items:flex-end;gap:10px;margin:10px 0 30px;flex-wrap:wrap}
+  .polaroid{background:#fff;padding:10px 10px 34px;border-radius:6px;box-shadow:0 8px 22px rgba(59,42,74,.18);
+    position:relative;transition:transform .25s}
+  .polaroid:hover{transform:rotate(0) scale(1.06)!important;z-index:3}
+  .polaroid .img{width:150px;height:150px;border-radius:3px;background-size:cover;background-position:center;overflow:hidden}
+  .polaroid.big .img{width:250px;height:250px}
+  .polaroid .cap{position:absolute;bottom:6px;left:0;right:0;text-align:center;font-family:"Caveat",cursive;font-size:24px}
+  .p1{transform:rotate(-6deg)} .p2{transform:rotate(2deg);z-index:2} .p3{transform:rotate(7deg)}
+  .tape{position:absolute;top:-12px;left:50%;width:70px;height:22px;margin-left:-35px;background:rgba(255,226,122,.8);transform:rotate(-4deg)}
+
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:30px}
+  @media (max-width:560px){.cards{grid-template-columns:1fr}}
+  .card{background:#fff;border-radius:22px;padding:18px 20px;box-shadow:0 6px 0 rgba(59,42,74,.12);border:3px solid var(--ink)}
+  .card.c1{background:#e9f7ff} .card.c2{background:#fff0f5}
+  .card .em{font-size:38px;line-height:1}
+  .card h3{margin:6px 0 2px;font-size:24px}
+  .card p{margin:0;font-size:18px;line-height:1.35}
+  .card a.map{color:var(--blue-d);font-weight:700;text-decoration:underline}
+  .card .cardimg{height:150px;margin:-4px -6px 10px;border-radius:14px;border:3px solid var(--ink);background-size:cover;background-position:center}
+  .card .when{font-weight:800;font-size:20px}
+
+  .gallery{margin:0 0 34px}
+  .gallery h2{text-align:center;margin:0 0 16px;font-size:30px}
+  .marquee{overflow:hidden;padding:22px 0 26px;margin:0 -18px;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+  .galGrid{display:flex;gap:22px;padding-right:22px;width:max-content;animation:slide var(--dur,90s) linear infinite}
+  .marquee:hover .galGrid,.marquee.hold .galGrid{animation-play-state:paused}
+  @keyframes slide{to{transform:translateX(-50%)}}
+  .galGrid .polaroid{flex:0 0 auto}
+  .galGrid .polaroid .img{width:170px;height:170px}
+  .galGrid .polaroid .cap{font-size:20px}
+  .galGrid .polaroid:nth-child(4n+1){transform:rotate(-4deg)}
+  .galGrid .polaroid:nth-child(4n+2){transform:rotate(3deg)}
+  .galGrid .polaroid:nth-child(4n+3){transform:rotate(-2deg)}
+  .galGrid .polaroid:nth-child(4n){transform:rotate(4deg)}
+  @media (prefers-reduced-motion:reduce){.galGrid{animation-duration:400s}}
+
+  .ask{background:var(--yellow);border:3px solid var(--ink);border-radius:28px;padding:26px 20px;text-align:center;
+    box-shadow:0 8px 0 rgba(59,42,74,.15)}
+  .ask h2{margin:0 0 4px;font-size:34px}
+  .ask p{margin:0 0 18px;font-size:18px}
+  .btns{display:flex;justify-content:center;gap:18px;min-height:70px;align-items:center;flex-wrap:wrap}
+  button{font-family:inherit;cursor:pointer;color:#000;-webkit-text-fill-color:#000}
+  .btn{font-size:24px;font-weight:800;padding:12px 30px;border-radius:999px;border:3px solid var(--ink);
+    box-shadow:0 5px 0 var(--ink);transition:transform .1s, box-shadow .1s}
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+  .yes{background:var(--mint);animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{50%{transform:scale(1.07)}}
+  .no{background:#fff}
+  .no.fleeing{position:fixed;z-index:50;transition:left .22s cubic-bezier(.3,1.6,.5,1), top .22s cubic-bezier(.3,1.6,.5,1)}
+  .taunt{font-family:"Caveat",cursive;font-size:26px;min-height:34px;margin-top:12px;color:var(--pink-d)}
+
+  .overlay{position:fixed;inset:0;background:rgba(59,42,74,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
+  .overlay.show{display:flex}
+  .modal{max-height:92vh;overflow-y:auto;background:#fff;border:4px solid var(--ink);border-radius:26px;max-width:420px;width:100%;padding:22px;text-align:center;
+    animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+  @keyframes pop{from{transform:scale(.4) rotate(-8deg);opacity:0}}
+  .modal h2{margin:8px 0 4px;font-size:30px}
+  .modal p{margin:0 0 14px;font-size:18px}
+  .sadpic{width:170px;height:170px;border-radius:50%;margin:0 auto;border:5px solid var(--blue);background-size:cover;background-position:center;
+    overflow:hidden;animation:sob .5s ease-in-out infinite alternate}
+  @keyframes sob{to{transform:translateY(-4px) rotate(-2deg)}}
+  .modal .btns{gap:10px}
+  .modal .btn{font-size:19px;padding:10px 18px}
+  .tiny{font-size:13px!important;padding:6px 12px!important;background:#eee!important;box-shadow:0 2px 0 var(--ink)!important;opacity:.8}
+
+  form{text-align:left}
+  label{display:block;font-weight:700;margin:10px 0 4px}
+  input,textarea{width:100%;font-family:inherit;font-size:18px;padding:10px 12px;border:3px solid var(--ink);border-radius:14px;background:#fffdf7;color:#000;-webkit-text-fill-color:#000;caret-color:#000}
+  input::placeholder,textarea::placeholder{color:#777;-webkit-text-fill-color:#777}
+  textarea{min-height:70px;resize:vertical}
+  .row{display:flex;gap:10px} .row>div{flex:1}
+  .allergy{margin-top:10px}
+  .allergy .search{margin-bottom:6px}
+  .alist{max-height:230px;overflow-y:auto;border:3px solid var(--ink);border-radius:14px;background:#fffdf7;padding:4px 10px;-webkit-overflow-scrolling:touch}
+  .alist h4{margin:8px 0 2px;font-size:15px;text-transform:uppercase;letter-spacing:.5px;opacity:.6}
+  .alist label{display:flex;align-items:center;gap:10px;font-weight:500;margin:0;padding:6px 0;border-bottom:1px solid #eee;cursor:pointer;color:#000}
+  .alist input{width:20px;height:20px;flex:0 0 auto;accent-color:var(--pink-d)}
+  .acount{font-size:14px;opacity:.7;margin-top:4px}
+  .err{color:#c0264f;font-weight:700;min-height:22px;margin-top:6px}
+
+  .done{display:none;text-align:center;padding:14px}
+  .done.show{display:block}
+  .done .big{font-size:70px}
+  .smsbox{background:#fff;border:2px dashed var(--ink);border-radius:14px;padding:10px;margin:12px auto 0;max-width:420px;font-size:16px;text-align:left;white-space:pre-wrap}
+  .link{background:none;border:none;color:var(--blue-d);text-decoration:underline;font-size:16px;margin-top:10px}
+
+  /* Faddere på sidene */
+  .side{position:fixed;top:0;bottom:0;width:190px;display:flex;flex-direction:column;justify-content:center;gap:22px;z-index:2;pointer-events:none}
+  .side.left{left:18px;align-items:flex-start} .side.right{right:18px;align-items:flex-end}
+  .side .polaroid{pointer-events:auto}
+  .side .polaroid .img{width:130px;height:130px}
+  .side .polaroid .cap{font-size:21px}
+  .side .polaroid .role{position:absolute;top:-14px;right:-10px;background:var(--pink);color:#fff;font-weight:800;font-size:13px;
+    padding:2px 8px;border-radius:999px;border:2px solid var(--ink);transform:rotate(8deg)}
+  .side .polaroid:nth-child(odd){transform:rotate(-5deg)} .side .polaroid:nth-child(even){transform:rotate(4deg)}
+  .side .polaroid{animation:float 4s ease-in-out infinite} .side .polaroid:nth-child(even){animation-delay:-2s}
+  @keyframes float{50%{translate:0 -8px}}
+  .fadSection{display:none;margin:0 0 30px}
+  .fadSection h2{text-align:center;margin:0 0 14px;font-size:30px}
+  .fadGrid{display:flex;flex-wrap:wrap;justify-content:center;gap:18px}
+  .fadGrid .polaroid .img{width:120px;height:120px}
+  .fadGrid .polaroid .cap{font-size:20px}
+  .fadGrid .polaroid .role{position:absolute;top:-14px;right:-10px;background:var(--pink);color:#fff;font-weight:800;font-size:13px;
+    padding:2px 8px;border-radius:999px;border:2px solid var(--ink);transform:rotate(8deg)}
+  .fadGrid .polaroid:nth-child(odd){transform:rotate(-4deg)} .fadGrid .polaroid:nth-child(even){transform:rotate(4deg)}
+  @media (max-width:1199px){ .side{display:none} .fadSection{display:block} }
+
+  footer{text-align:center;font-family:"Caveat",cursive;font-size:24px;margin-top:30px;opacity:.8}
+  #confetti{position:fixed;inset:0;pointer-events:none;z-index:200}
+</style>
+</head>
+<body>
+<div class="bubbles" id="bubbles"></div>
+<canvas id="confetti"></canvas>
+<aside class="side left" id="sideLeft"></aside>
+<aside class="side right" id="sideRight"></aside>
+
+<div class="wrap">
+  <p class="kicker">Du er invitert til</p>
+  <h1><span class="h">Hennie</span><br>sin dåp!</h1>
+  <p class="sub">Bli med å feira Gompen saman med oss</p>
+
+  <div class="photos">
+    <div class="polaroid p1"><div class="tape"></div><div class="img" id="ph-jakob"></div><div class="cap">Pappa Jakob</div></div>
+    <div class="polaroid big p2"><div class="tape"></div><div class="img" id="ph-hennie"></div><div class="cap">Hennie</div></div>
+    <div class="polaroid p3"><div class="tape"></div><div class="img" id="ph-johanne"></div><div class="cap">Mamma Johanne</div></div>
+  </div>
+
+  <div class="cards">
+    <div class="card c1">
+      <div class="cardimg" style="background-image:url('img/kirke.jpg')"></div>
+      <h3>Dåp</h3>
+      <p class="when" id="t-dap"></p>
+      <p><a class="map" href="https://www.google.com/maps/place/Fana+kyrkje/@60.2633494,5.3452539,519m/data=!3m1!1e3!4m10!1m2!2m1!1sfana+kirke!3m6!1s0x463cf7b50ecdcaed:0x3914763811f2d364!8m2!3d60.2633437!4d5.3483793!15sCgpmYW5hIGtpcmtlkgEGY2h1cmNo4AEA!16s%2Fg%2F11hz3cn1w1?entry=ttu&amp;g_ep=EgoyMDI2MTExNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">Fana kirke</a></p>
+    </div>
+    <div class="card c2">
+      <div class="cardimg" style="background-image:url('img/stadion.jpg')"></div>
+      <h3>Festlunsj</h3>
+      <p class="when" id="t-lunsj"></p>
+      <p><a class="map" href="https://www.google.com/maps/place/Brann+Stadion/@60.3669101,5.3556806,34m/data=!3m1!1e3!4m6!3m5!1s0x463cf939026c541b:0x2bfea90d566fa549!8m2!3d60.3669423!4d5.3574701!16zL20vMDQ1MTc4?entry=ttu&amp;g_ep=EgoyMDI2MTExNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">Brann stadion</a></p>
+    </div>
+  </div>
+
+  <section class="gallery">
+    <h2>Hennie sine dager no</h2>
+    <div class="marquee" id="marquee"><div class="galGrid" id="galGrid"></div></div>
+  </section>
+
+  <section class="fadSection">
+    <h2>Hennies faddere</h2>
+    <div class="fadGrid" id="fadGrid"></div>
+  </section>
+
+  <section class="ask" id="ask">
+    <div id="askInner">
+      <h2>Kjem du?</h2>
+      <p id="deadline"></p>
+      <div class="btns">
+        <button class="btn yes" id="yesBtn">JA!</button>
+        <button class="btn no" id="noBtn">Nei</button>
+      </div>
+      <div class="taunt" id="taunt"></div>
+    </div>
+
+    <div class="done" id="done">
+      <div class="big" id="doneEmoji" style="display:none"></div>
+      <h2 id="doneTitle">Hurra!</h2>
+      <p id="doneText"></p>
+      <div id="smsWrap" style="display:none">
+        <p style="margin:10px 0 0"><b>Siste steg:</b> trykk under for å sende svaret til Jakob på e-post.</p>
+        <div class="btns" style="margin-top:10px;min-height:0">
+          <a class="btn yes" style="animation:none;font-size:20px;padding:10px 22px;text-decoration:none;color:#000" id="mailBtn" href="#">Send svar på e-post</a>
+        </div>
+        <div class="smsbox" id="smsText"></div>
+        <div class="btns" style="margin-top:8px;min-height:0">
+          <button class="btn tiny" id="copyBtn">Kopier tekst</button>
+        </div>
+        <p style="font-size:14px;opacity:.75;margin:6px 0 0">Funker ikke knappen? Kopier teksten og send den til <span id="mailAddr"></span></p>
+      </div>
+      <button class="link" id="changeBtn">Endre svar</button>
+    </div>
+  </section>
+
+  <footer>Me gler oss masse!</footer>
+</div>
+
+<!-- Er du sikker? -->
+<div class="overlay" id="sureOverlay">
+  <div class="modal">
+    <div class="sadpic" id="ph-sad"></div>
+    <h2>Er du HELT sikker??</h2>
+    <p>Hennie blir veldig lei seg…</p>
+    <div class="btns">
+      <button class="btn yes" id="regretBtn" style="animation:none">Okei, eg kjem!</button>
+      <button class="btn tiny" id="reallyNoBtn">ja… dessverre</button>
+    </div>
+  </div>
+</div>
+
+<!-- Skjema -->
+<div class="overlay" id="formOverlay">
+  <div class="modal">
+    <h2 id="formTitle">So kjekt!</h2>
+    <form id="rsvpForm" novalidate>
+      <label for="fName">Navn</label>
+      <input id="fName" autocomplete="name" placeholder="F.eks. Onkel Erik">
+      <div class="row" id="countRow">
+        <div><label for="fAdults">Voksne</label><input id="fAdults" type="number" min="0" value="1"></div>
+        <div><label for="fKids">Barn</label><input id="fKids" type="number" min="0" value="0"></div>
+      </div>
+      <label for="fNote" id="noteLabel">Heter du Robinator og hater melk, eller Synnøve men du har ikke lyst på nøtter? Skriv det ned her</label>
+      <textarea id="fNote" placeholder=""></textarea>
+      <div class="allergy" id="allergyWrap">
+        <label for="aSearch">Eller finn dine allergier her</label>
+        <input id="aSearch" class="search" placeholder="Søk, f.eks. kiwi" autocomplete="off">
+        <div class="alist" id="aList"></div>
+        <div class="acount" id="aCount">Ingen valgt</div>
+      </div>
+      <div class="err" id="fErr"></div>
+      <div class="btns" style="min-height:0;margin-top:6px">
+        <button type="button" class="btn tiny" id="cancelForm">Avbryt</button>
+        <button type="submit" class="btn yes" style="animation:none;font-size:20px" id="submitBtn">Send svar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+/* ======= REDIGER HER ======= */
+const CONFIG = {
+  dapTid:"Søndag 21. februar kl. 13:00",
+  lunsjTid:"Etter dåpen",
+  frist:"",
+  kontaktNavn:"Jakob",
+  kontaktNummer:"",
+  kontaktEpost:"jakobhatland@yahoo.no",
+  photos: {
+    hennie:"img/hennie.jpg", jakob:"img/jakob.jpg", johanne:"img/johanne3.jpg", hennieSad:"img/sad.jpg"
+  },
+  galleri: [
+    { tekst:"", bilde:"img/n1.jpg" },
+    { tekst:"Rosa og fornøyd", bilde:"img/g1.jpg" },
+    { tekst:"", bilde:"img/n2.jpg" },
+    { tekst:"", bilde:"img/n3.jpg" },
+    { tekst:"Humle og Hennie", bilde:"img/g2.jpg" },
+    { tekst:"", bilde:"img/n4.jpg" },
+    { tekst:"", bilde:"img/n5.jpg" },
+    { tekst:"", bilde:"img/n6.jpg" },
+    { tekst:"Trøtt far", bilde:"img/g3.jpg" },
+    { tekst:"", bilde:"img/n7.jpg" },
+    { tekst:"", bilde:"img/n8.jpg" },
+    { tekst:"", bilde:"img/n9.jpg" },
+    { tekst:"", bilde:"img/n10.jpg" }
+  ],
+  allergierTopp: ["Gluten", "Melk / laktose", "Nøtter", "Peanøtter", "Egg", "Fisk", "Skalldyr", "Soya", "Sesam", "Selleri"],
+  allergierResten: ["Gress", "Jordbær", "Kiwi", "Blåmuggost", "Regn", "Dårlig stemning", "Valmuefrø", "Sennep", "Lupin", "Bløtdyr", "Koriander", "Sopp", "Tomat", "Paprika", "Hvitløk", "Rå løk", "Kanel", "Banan", "Ananas", "Mango", "Avokado", "Sitrus", "Eple", "Fersken", "Kokos", "Mandler", "Pistasj", "Honning", "Kaffe før kl. 10", "Alkoholfritt øl", "Rosiner i boller", "Lakris", "Marsipan", "Kokosmakroner", "Tørr kransekake", "Bløtkake uten nok krem", "Fiskeboller i hvit saus", "Lutefisk", "Rakfisk", "Brunost", "Pinnekjøtt utenom jul", "Pølse i lompe", "Majones", "Remulade", "Ketchup på spaghetti", "Ananas på pizza", "Lunken kaffe", "Kald pizza", "Kullsyre", "Is i drikken", "Springvann fra Oslo", "Østlandsdialekt", "Vestlandsvær", "Sol (sjelden eksponert)", "Vind over 10 m/s", "Brann-tap", "Bursdagssang", "Allsang", "Taler over 5 minutter", "Slips", "Dress", "Strømpebukser", "Harde kirkebenker", "Orgelmusikk", "Salmevers 4 til 7", "Tidlig oppmøte", "Parkering", "Bompenger", "Småprat", "Svigerfamilie", "«Når kommer nummer to?»", "Babyprat", "Bleieskift", "Gulp", "Hundehår", "Katter", "Støv", "Pollen", "Bjørk", "Latex", "Parfyme", "Etterbarberingsvann", "Nikkel", "Ull", "Polyester", "Glitter", "Ballonger", "Konfetti", "Mandager", "Kalde hender", "Gruppebilder", "Kjedelige gaver", "Plastbestikk", "Papptallerkener", "Lange køer ved kaffen"],
+  faddere: [
+    { navn:"Fadder Daniel", bilde:"img/f1.jpg" },
+    { navn:"Fadder Synnøve", bilde:"img/f2.jpg" },
+    { navn:"Fadder Nora", bilde:"" },
+    { navn:"Fadder Ida", bilde:"" }
+  ]
+};
+/* =========================== */
+
+const $ = id => document.getElementById(id);
+
+$("t-dap").textContent = CONFIG.dapTid;
+$("t-lunsj").textContent = CONFIG.lunsjTid;
+$("deadline").textContent = CONFIG.frist ||"Trykk på svaret ditt under.";
+
+function placeholder(emoji, bg){
+  return`url("data:image/svg+xml;utf8,${encodeURIComponent(
+    `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='${bg}'/></svg>`)}")`;
+}
+function setPhoto(id, src, emoji, bg){
+  $(id).style.backgroundImage = src ?`url("${src}")` : placeholder(emoji, bg);
+}
+setPhoto("ph-hennie",  CONFIG.photos.hennie,"","#ffd6e5");
+setPhoto("ph-jakob",   CONFIG.photos.jakob,"","#d6efff");
+setPhoto("ph-johanne", CONFIG.photos.johanne,"","#fff1b8");
+setPhoto("ph-sad",     CONFIG.photos.hennieSad || CONFIG.photos.hennie,"","#d6efff");
+
+// --- Galleri
+[0,1].forEach(()=>CONFIG.galleri.forEach(g=>{
+  const p=document.createElement("div"); p.className="polaroid";
+  p.innerHTML=`<div class="tape"></div><div class="img"></div><div class="cap"></div>`;
+  p.querySelector(".cap").textContent=g.tekst;
+  p.querySelector(".img").style.backgroundImage=`url("${g.bilde}")`;
+  $("galGrid").appendChild(p);
+}));
+$("galGrid").style.setProperty("--dur",(CONFIG.galleri.length*6)+"s");
+$("marquee").addEventListener("touchstart",()=>$("marquee").classList.add("hold"),{passive:true});
+["touchend","touchcancel"].forEach(ev=>$("marquee").addEventListener(ev,()=>$("marquee").classList.remove("hold")));
+
+// --- Faddere
+(function(){
+  const emo=["","","","","",""], bgs=["#e2fbe9","#ffd6e5","#d6efff","#fff1b8"];
+  const mk=(f,i)=>{
+    const p=document.createElement("div"); p.className="polaroid";
+    p.innerHTML=`<div class="tape"></div><div class="img"></div><div class="cap"></div>`;
+    p.querySelector(".cap").textContent=f.navn;
+    p.querySelector(".img").style.backgroundImage = f.bilde ?`url("${f.bilde}")` : placeholder(emo[i%emo.length], bgs[i%bgs.length]);
+    return p;
+  };
+  CONFIG.faddere.forEach((f,i)=>{
+    (i%2===0 ? $("sideLeft") : $("sideRight")).appendChild(mk(f,i));
+    $("fadGrid").appendChild(mk(f,i));
+  });
+})();
+
+// --- Bobler
+(function(){
+  const cols=["#ff8fb1","#8fd3ff","#ffe27a","#a8f0c6"], box=$("bubbles");
+  for(let i=0;i<14;i++){
+    const s=document.createElement("span"), d=14+Math.random()*40;
+    s.style.cssText=`left:${Math.random()*100}vw;width:${d}px;height:${d}px;background:${cols[i%4]};animation-duration:${10+Math.random()*14}s;animation-delay:${-Math.random()*20}s`;
+    box.appendChild(s);
+  }
+})();
+
+// --- Rømmende NEI-knapp
+const noBtn=$("noBtn"), taunt=$("taunt");
+const taunts=["Hehe, bom!","For treg!","Prøv igjen","Nesten!!","Hennie vil at du kommer","Du gir deg ikke, du…","Ok ok, snart…"];
+let dodges=0; const MAX_DODGES=7; let caught=false;
+
+function flee(e){
+  if(caught) return;
+  if(dodges>=MAX_DODGES){ caught=true; noBtn.style.transition="none";  return; }
+  if(e && e.cancelable && e.type==="touchstart") e.preventDefault();
+  const r=noBtn.getBoundingClientRect();
+  if(!noBtn.classList.contains("fleeing")){
+    noBtn.style.left=r.left+"px"; noBtn.style.top=r.top+"px";
+    noBtn.classList.add("fleeing");
+    void noBtn.offsetWidth;
+  }
+  const pad=12, w=r.width, h=r.height;
+  const maxX=window.innerWidth-w-pad, maxY=window.innerHeight-h-pad;
+  let x,y,tries=0;
+  do{
+    x=pad+Math.random()*(maxX-pad); y=pad+Math.random()*(maxY-pad); tries++;
+  }while(Math.hypot(x-r.left,y-r.top)<180 && tries<20);
+  noBtn.style.left=x+"px"; noBtn.style.top=y+"px";
+  noBtn.style.transform=`rotate(${(Math.random()*30-15).toFixed(0)}deg)`;
+  
+  dodges++;
+}
+noBtn.addEventListener("mouseenter",flee);
+noBtn.addEventListener("touchstart",flee,{passive:false});
+noBtn.addEventListener("click",e=>{
+  if(!caught){ flee(e); return; }
+  $("sureOverlay").classList.add("show");
+});
+
+function resetNo(){
+  dodges=0; caught=false; taunt.textContent="";
+  noBtn.classList.remove("fleeing"); noBtn.style.cssText="";
+}
+
+$("regretBtn").onclick=()=>{ $("sureOverlay").classList.remove("show"); resetNo(); openForm(true); };
+$("reallyNoBtn").onclick=()=>{ $("sureOverlay").classList.remove("show"); openForm(false); };
+
+
+// --- Allergiliste
+(function(){
+  const list=$("aList");
+  const sec=(t,items)=>{ const h=document.createElement("h4"); h.textContent=t; list.appendChild(h);
+    items.forEach(a=>{ const l=document.createElement("label"); const c=document.createElement("input"); c.type="checkbox"; c.value=a;
+      l.appendChild(c); l.appendChild(document.createTextNode(a)); list.appendChild(l); }); };
+  sec("Vanligast",CONFIG.allergierTopp); sec("Alt anna",CONFIG.allergierResten);
+  list.addEventListener("change",()=>{ const n=chosenAllergies().length; $("aCount").textContent=n?`${n} valgt`:"Ingen valgt"; });
+  $("aSearch").addEventListener("input",e=>{ const q=e.target.value.trim().toLowerCase();
+    list.querySelectorAll("label").forEach(l=>l.style.display=!q||l.textContent.toLowerCase().includes(q)?"flex":"none");
+    list.querySelectorAll("h4").forEach(h=>h.style.display=q?"none":"block"); });
+})();
+function chosenAllergies(){ return [...$("aList").querySelectorAll("input:checked")].map(c=>c.value); }
+
+let answer=null;
+$("yesBtn").onclick=()=>{ confetti(); openForm(true); };
+function openForm(yes){
+  answer=yes;
+  $("formTitle").textContent = yes ?"So kjekt!" :"Så synd…";
+  $("countRow").style.display = yes ?"flex" :"none";
+  $("allergyWrap").style.display = yes ?"block" :"none";
+  $("noteLabel").textContent = yes ?"Heter du Robinator og hater melk, eller Synnøve men du har ikke lyst på nøtter? Skriv det ned her" :"Hilsen til Hennie (valgfritt)";
+  $("fErr").textContent="";
+  $("formOverlay").classList.add("show");
+  setTimeout(()=>$("fName").focus(),50);
+}
+$("cancelForm").onclick=()=>{ $("formOverlay").classList.remove("show"); resetNo(); };
+
+let dbP=null, userP=null;
+try{ dbP = window.claude ? claude.use("db") : Promise.resolve(null); userP = window.claude ? claude.use("user") : Promise.resolve(null); }
+catch(_){ dbP=Promise.resolve(null); userP=Promise.resolve(null); }
+const withTimeout=(p,ms)=>Promise.race([p,new Promise(r=>setTimeout(()=>r(null),ms))]);
+
+$("rsvpForm").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const name=$("fName").value.trim();
+  if(!name){ $("fErr").textContent="Skriv inn navnet ditt"; return; }
+  const adults=Math.max(0,parseInt($("fAdults").value)||0), kids=Math.max(0,parseInt($("fKids").value)||0);
+  if(answer && adults+kids===0){ $("fErr").textContent="Minst én person må komme"; return; }
+  const rec={ name, coming:answer, adults:answer?adults:0, kids:answer?kids:0, allergier:answer?chosenAllergies():[], note:$("fNote").value.trim(), at:new Date().toISOString() };
+  $("submitBtn").disabled=true; $("submitBtn").textContent="Sender…";
+
+  let saved=false;
+  try{
+    const db=await withTimeout(dbP,4000), user=await withTimeout(userP,4000);
+    if(db && user){
+      const id=await user.id();
+      await withTimeout(db.doc("rsvp/"+id).set(rec),6000).then(v=>{ if(v!==null) saved=true; });
+    }
+  }catch(_){ saved=false; }
+
+  $("submitBtn").disabled=false; $("submitBtn").textContent="Send svar";
+  $("formOverlay").classList.remove("show");
+  showDone(rec,saved);
+});
+
+function showDone(rec,saved){
+  $("askInner").style.display="none";
+  $("done").classList.add("show");
+  if(rec.coming){
+    $("doneEmoji").textContent=""; $("doneTitle").textContent=`Hurra, ${rec.name.split(" ")[0]}!`;
+    $("doneText").textContent= saved ?"Svaret ditt er registrert. Vi sees 21. februar!" :"Vi gleder oss til å se deg 21. februar!";
+    confetti();
+  }else{
+    $("doneEmoji").textContent=""; $("doneTitle").textContent="Takk for svar";
+    $("doneText").textContent= saved ?"Svaret er registrert. Vi kommer til å savne deg!" :"Vi kommer til å savne deg!";
+  }
+  const sms = rec.coming
+    ?`Hei ${CONFIG.kontaktNavn}! ${rec.name} kommer i dåpen til Hennie\nVoksne: ${rec.adults}, barn: ${rec.kids}${rec.allergier.length?"\nAllergier: "+rec.allergier.join(", "):""}${rec.note?"\n"+rec.note:""}`
+    :`Hei ${CONFIG.kontaktNavn}! ${rec.name} kan dessverre ikke komme i dåpen til Hennie.${rec.note?"\n"+rec.note:""}`;
+  const subject = rec.coming ? `Dåp Hennie: ${rec.name} kjem` : `Dåp Hennie: ${rec.name} kan ikkje komme`;
+  $("smsWrap").style.display="block";
+  $("smsText").textContent=sms;
+  $("mailAddr").textContent=CONFIG.kontaktEpost;
+  $("mailBtn").href=`mailto:${CONFIG.kontaktEpost}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(sms)}`;
+}
+$("copyBtn").onclick=async()=>{
+  try{ await navigator.clipboard.writeText($("smsText").textContent); $("copyBtn").textContent="Kopiert!"; }
+  catch(_){ $("copyBtn").textContent="Marker teksten og kopier"; }
+};
+$("changeBtn").onclick=()=>{ $("done").classList.remove("show"); $("askInner").style.display="block"; resetNo(); };
+
+function confetti(){
+  const c=$("confetti"), ctx=c.getContext("2d");
+  c.width=innerWidth; c.height=innerHeight;
+  const cols=["#ff8fb1","#8fd3ff","#ffe27a","#a8f0c6","#c9a4ff"];
+  const ps=Array.from({length:160},()=>({x:innerWidth/2,y:innerHeight/3,vx:(Math.random()-.5)*16,vy:Math.random()*-14-4,
+    s:6+Math.random()*7,r:Math.random()*6,vr:(Math.random()-.5)*.4,c:cols[Math.floor(Math.random()*5)]}));
+  let f=0;
+  (function tick(){
+    ctx.clearRect(0,0,c.width,c.height);
+    ps.forEach(p=>{p.vy+=.35;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/3,p.s,p.s*.6);ctx.restore();});
+    if(++f<180) requestAnimationFrame(tick); else ctx.clearRect(0,0,c.width,c.height);
+  })();
+}
+</script>
+</body>
+</html>

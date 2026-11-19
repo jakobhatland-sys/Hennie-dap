@@ -245,6 +245,10 @@
         <div><label for="fAdults">Voksne</label><input id="fAdults" type="number" min="0" value="1"></div>
         <div><label for="fKids">Barn</label><input id="fKids" type="number" min="0" value="0"></div>
       </div>
+      <div id="cakeWrap">
+        <label for="fCake" style="font-weight:500">På Brann stadion blir det servert mat og drikke, etterfulgt av kaffe og kaker. Hvis du ønsker å lage en kake eller lignende har vi hørt fra Hennie at hun blir veldig glad :-D Skriv i så fall her:</label>
+        <textarea id="fCake" placeholder=""></textarea>
+      </div>
       <label for="fNote" id="noteLabel">Hvis du som Onkel Robin får litt auau av melk, eller som tante Synnøve og klør litt av nøtter, skriv det ned her:</label>
       <textarea id="fNote" placeholder=""></textarea>
       <div class="allergy" id="allergyWrap">
@@ -419,6 +423,7 @@ function openForm(yes){
   $("formTitle").textContent = yes ?"So kjekt!" :"Så synd…";
   $("countRow").style.display = yes ?"flex" :"none";
   $("allergyWrap").style.display = yes ?"block" :"none";
+  $("cakeWrap").style.display = yes ?"block" :"none";
   $("noteLabel").textContent = yes ?"Hvis du som Onkel Robin får litt auau av melk, eller som tante Synnøve og klør litt av nøtter, skriv det ned her:" :"Hilsen til Hennie (valgfritt)";
   $("fErr").textContent="";
   $("formOverlay").classList.add("show");
@@ -437,7 +442,7 @@ $("rsvpForm").addEventListener("submit", async e=>{
   if(!name){ $("fErr").textContent="Skriv inn navnet ditt"; return; }
   const adults=Math.max(0,parseInt($("fAdults").value)||0), kids=Math.max(0,parseInt($("fKids").value)||0);
   if(answer && adults+kids===0){ $("fErr").textContent="Minst én person må komme"; return; }
-  const rec={ name, coming:answer, adults:answer?adults:0, kids:answer?kids:0, allergier:answer?chosenAllergies():[], note:$("fNote").value.trim(), at:new Date().toISOString() };
+  const rec={ name, coming:answer, adults:answer?adults:0, kids:answer?kids:0, allergier:answer?chosenAllergies():[], kake:answer?$("fCake").value.trim():"", note:$("fNote").value.trim(), at:new Date().toISOString() };
   $("submitBtn").disabled=true; $("submitBtn").textContent="Sender…";
 
   let saved=false;
@@ -466,7 +471,7 @@ function showDone(rec,saved){
     $("doneText").textContent= saved ?"Svaret er registrert. Vi kommer til å savne deg!" :"Vi kommer til å savne deg!";
   }
   const sms = rec.coming
-    ?`Hei ${CONFIG.kontaktNavn}! ${rec.name} kommer i dåpen til Hennie\nVoksne: ${rec.adults}, barn: ${rec.kids}${rec.allergier.length?"\nAllergier: "+rec.allergier.join(", "):""}${rec.note?"\n"+rec.note:""}`
+    ?`Hei ${CONFIG.kontaktNavn}! ${rec.name} kommer i dåpen til Hennie\nVoksne: ${rec.adults}, barn: ${rec.kids}${rec.allergier.length?"\nAllergier: "+rec.allergier.join(", "):""}${rec.kake?"\nKake: "+rec.kake:""}${rec.note?"\n"+rec.note:""}`
     :`Hei ${CONFIG.kontaktNavn}! ${rec.name} kan dessverre ikke komme i dåpen til Hennie.${rec.note?"\n"+rec.note:""}`;
   const subject = rec.coming ? `Dåp Hennie: ${rec.name} kjem` : `Dåp Hennie: ${rec.name} kan ikkje komme`;
   $("smsWrap").style.display="block";

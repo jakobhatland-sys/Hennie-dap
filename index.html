@@ -249,7 +249,7 @@
         <label for="fCake" style="font-weight:500">På Brann stadion blir det servert mat og drikke, etterfulgt av kaffe og kaker. Hvis du ønsker å lage en kake eller lignende har vi hørt fra Hennie at hun blir veldig glad :-D Skriv i så fall her:</label>
         <textarea id="fCake" placeholder=""></textarea>
       </div>
-      <label for="fNote" id="noteLabel">Hvis du som Onkel Robin får litt auau av melk, eller som tante Synnøve og klør litt av nøtter, skriv det ned her:</label>
+      <label for="fNote" id="noteLabel">Hvis du som onkel Robin får litt auau av melk, eller som tante Synnøve og klør litt av nøtter, skriv det ned her:</label>
       <textarea id="fNote" placeholder=""></textarea>
       <div class="allergy" id="allergyWrap">
         <label for="aSearch">Eller finn dine allergier her</label>
@@ -424,7 +424,7 @@ function openForm(yes){
   $("countRow").style.display = yes ?"flex" :"none";
   $("allergyWrap").style.display = yes ?"block" :"none";
   $("cakeWrap").style.display = yes ?"block" :"none";
-  $("noteLabel").textContent = yes ?"Hvis du som Onkel Robin får litt auau av melk, eller som tante Synnøve og klør litt av nøtter, skriv det ned her:" :"Hilsen til Hennie (valgfritt)";
+  $("noteLabel").textContent = yes ?"Hvis du som onkel Robin får litt auau av melk, eller som tante Synnøve og klør litt av nøtter, skriv det ned her:" :"Hilsen til Hennie (valgfritt)";
   $("fErr").textContent="";
   $("formOverlay").classList.add("show");
   setTimeout(()=>$("fName").focus(),50);
